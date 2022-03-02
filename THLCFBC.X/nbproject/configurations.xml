@@ -9,6 +9,7 @@
       <itemPath>dhtHeaderFile.h</itemPath>
       <itemPath>lcdHeaderFile.h</itemPath>
       <itemPath>ldrHeaderFile.h</itemPath>
+      <itemPath>I2CHeaderFile.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,6 +23,7 @@
       <itemPath>dht.c</itemPath>
       <itemPath>functions.c</itemPath>
       <itemPath>ldr.c</itemPath>
+      <itemPath>I2C.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
