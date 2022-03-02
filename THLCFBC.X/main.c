@@ -62,9 +62,9 @@ void main(void) {
         
         health = humidityInt * temperatureInt;
         
-        if((humidityInt <= 35) || (humidityInt >= 55) || (temperatureInt <= 18) || (temperatureInt >= 21))
+        if((humidityInt <= 35) || (humidityInt >= 55) || (temperatureInt <= 18) || (temperatureInt >= 21) || (light >= 70))
             setRedLed();
-        else if((health <= 810) || (health >= 945))
+        else if((health <= 810) || (health >= 945) || ((light >= 35) && (light < 70)))
             setYellowLed();
         else
             setGreenLed();
