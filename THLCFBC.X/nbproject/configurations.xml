@@ -4,15 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>LCD16x2HeaderFile.h</itemPath>
-      <itemPath>DHTHeaderFile.h</itemPath>
       <itemPath>configPICHeaderFile.h</itemPath>
-      <itemPath>functions.h</itemPath>
-      <itemPath>DHTLibPort.h</itemPath>
-      <itemPath>DHTLib.h</itemPath>
-      <itemPath>Config.h</itemPath>
-      <itemPath>Delay.h</itemPath>
-      <itemPath>DelayPort.h</itemPath>
+      <itemPath>functionsHeaderFile.h</itemPath>
+      <itemPath>dhtHeaderFile.h</itemPath>
+      <itemPath>lcdHeaderFile.h</itemPath>
+      <itemPath>ldrHeaderFile.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -25,7 +21,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>dht.c</itemPath>
       <itemPath>functions.c</itemPath>
-      <itemPath>DHTLib.c</itemPath>
+      <itemPath>ldr.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -173,7 +169,7 @@
         <property key="oscillator.rcfrequency" value="250"/>
         <property key="oscillator.rcfrequencyunit" value="Kilo"/>
         <property key="periphADC1.altscl" value="false"/>
-        <property key="periphADC1.minTacq" value="5"/>
+        <property key="periphADC1.minTacq" value=""/>
         <property key="periphADC1.tacqunits" value="microseconds"/>
         <property key="periphADC2.altscl" value="false"/>
         <property key="periphADC2.minTacq" value=""/>

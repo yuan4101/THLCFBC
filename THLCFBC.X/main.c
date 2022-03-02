@@ -1,60 +1,74 @@
-/*
- * File:   main.c
- * Author: juan0
- *
- * Created on 23 de febrero de 2022, 11:22 PM
- */
 
-#include "configPICHeaderFile.h"
-#include "LCD16x2HeaderFile.h"
-#include "DHTHeaderFile.h"
-#include "functions.h"
-#include <stdio.h>
-#include <xc.h>
 #define _XTAL_FREQ 8000000
+#include "configPICHeaderFile.h"
+#include "lcdHeaderFile.h"
+#include "dhtHeaderFile.h"
+#include "functionsHeaderFile.h"
+#include "ldrHeaderFile.h"
+#include <xc.h>
+#include <stdio.h>
 
 void main(void) {
-    char humidityInt, humidityDec, temperatureInt, temperatureDec, checksum, humidity[10], temperature[10];
+    char light, humidityInt, humidityDec, temperatureInt, temperatureDec, checksum;
+    char error = 0, check = 1, value[10];
+    int health;
     
-    OSCCON=0x72;                         // Use Internal Oscillator with Frequency 8MHZ
-    ADCON1=0x0F;
+    lcdInit();
+    configLeds();
+    lcdClear();
+    msDelay(10);
+    lcdDirCustomChar(0, chError);
+    lcdDirCustomChar(1, chCheck);
     
-    LCD_Init();
+    OSCCON=0x72;
+    ADCON1bits.PCFG=0b1100;
     
-    while(1)
-    {
-        LCD_Clear();
+    configADC();
+    
+    while(1){
         
         DHT11Start();
         
-        if(DHT11CheckResponse())
-        {
-            // read 40-bit data from DHT11 module
-            humidityInt = DHT11ReadData();          // read Relative Humidity's integral value
-            humidityDec = DHT11ReadData();          // read Relative Humidity's decimal value
-            temperatureInt = DHT11ReadData();       // read Temperature's integral value
-            temperatureDec = DHT11ReadData();       // read Relative Temperature's decimal value
-            checksum = DHT11ReadData();             // read 8-bit checksum value
+        if(DHT11CheckResponse()){
+            humidityInt = DHT11ReadData();
+            humidityDec = DHT11ReadData();
+            temperatureInt = DHT11ReadData();
+            temperatureDec = DHT11ReadData();
+            checksum = DHT11ReadData();
             
-            // convert humidity value to ascii and send it to display
-            //sprintf(buf, "T: %02d C H: %02d%%  ", tb, hb);
-            sprintf(humidity,"H: %02d%%",humidityInt);
-            LCD_String_xy(0,0,humidity);
-    
-            /* convert temperature value to ascii and send it to display*/
-            sprintf(temperature,"T: %02d C",temperatureInt);
-            LCD_String_xy(2,0,temperature);
-    
-            /* check addition of humidity and temperature value equals to checksum */
+            lcdStringXY(0, 0, "T:");
+            lcdStringXY(10, 0, "H:");
+          
+            sprintf(value, "%02dC", temperatureInt);
+            lcdStringXY(3, 0, value);
+            
+            sprintf(value, "%02d%%", humidityInt);
+            lcdStringXY(13, 0, value);
+            
             if(checksum != (humidityInt + humidityDec + temperatureInt + temperatureDec))
-                LCD_String_xy(0,8,"Error");
+                lcdCustomCharXY(15, 2, error);
             else
-                LCD_String_xy(0,8,"No Error");
+                lcdCustomCharXY(15, 2, check);
         }
+        else{
+            lcdClear();
+            lcdStringXY(2, 0, "No response!");
+            lcdCustomCharXY(15, 2, error);
+        }
+        light = ldrPercentValue();
+        lcdStringXY(0, 2, "lx:");
+        sprintf(value, "%3u%%", light);
+        lcdStringXY(4, 2, value);
+        
+        health = humidityInt * temperatureInt;
+        
+        if((humidityInt <= 35) || (humidityInt >= 55) || (temperatureInt <= 18) || (temperatureInt >= 21))
+            setRedLed();
+        else if((health <= 810) || (health >= 945))
+            setYellowLed();
         else
-        {
-            LCD_String_xy(0,0,"No response!");
-        }
+            setGreenLed();
+            
         
         msDelay(1000);
     }
