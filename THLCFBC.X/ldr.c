@@ -1,6 +1,4 @@
-
 #include "ldrHeaderFile.h"
-#include <xc.h>
 
 unsigned int ldrValue(){
     unsigned int lightValue=0;          //Registro de proposito General entero 16 bits "Radc" Resolucion del voltaje LDR

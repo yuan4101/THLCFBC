@@ -1,7 +1,7 @@
-
+#define _XTAL_FREQ 8000000
 #include <stdint.h>
-/*==========================================================================================================
- ===========================================================================================================*/
+#include <xc.h>
+
 void I2CInit (uint32_t frecuencia); //Función de inicialización del periferico I2C.
 void I2CStart (void);               // Función que inicia la comunicación I2C.
 void I2CReStart (void);             // Función que reinicia la comuncación I2C.

@@ -1,10 +1,6 @@
-
-#define _XTAL_FREQ 8000000
 #include "dhtHeaderFile.h"
-#include <xc.h>
 
-void DHT11Start()
-{
+void DHT11Start(){
     a3DataMode = 0;
     a3DataOut = 0;
     __delay_ms(18);
@@ -13,8 +9,7 @@ void DHT11Start()
     a3DataMode = 1;
 }
 
-short DHT11CheckResponse()
-{
+short DHT11CheckResponse(){
     short status = 0;
     if(a3DataIn == 0){
         __delay_us(80);
@@ -26,8 +21,7 @@ short DHT11CheckResponse()
     return status;
 }
 
-char DHT11ReadData()
-{
+char DHT11ReadData(){
   char i,data = 0;  
     for(i=0;i<8;i++)
     {
